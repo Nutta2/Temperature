@@ -126,6 +126,7 @@ bool createNewTemperature()
 	do
 	{
 		std::cout << "Fahrenheit: ";
+		std::cout << "";
 		if (!(std::cin >> tempFahrenheit))
 		{
 			std::cin.clear();

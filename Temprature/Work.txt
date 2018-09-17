@@ -1,0 +1,11 @@
+18/07/18
+Removed "array" iterator from vector<Temperature*> and started using vector<Temperature*>::iterator instead.
+Fixed multiple functions to cleanup after this change.
+Created typedef for vector<Temperature*> = typedef std::vector<Temperature*> tVec.
+Created typedef for vector<Temperature*>::iterator = typedef std::vector<Temperature*>::iterator tVecIT.
+
+09/09/2018
+Fix time saved in file. Should probaly not be saved as text as it gives some complications when trying to retrive it!
+- NOTE: save time_t as its originally value and change it to char * when displaying the time
+
+overlook the project to remmember and learn!

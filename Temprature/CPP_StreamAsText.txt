@@ -10,3 +10,5 @@ Celsius: 1	Fahrenheit: 1	Time: 1536536585
 Celsius: 2	Fahrenheit: 2	Time: 1536536590
 Celsius: 3	Fahrenheit: 3	Time: 1536536592
 Celsius: 1	Fahrenheit: 1	Time: 1536549057
+Celsius: 10.21	Fahrenheit: 49.21	Time: 1537230255
+Celsius: 1	Fahrenheit : 39	Time: 1537230255

@@ -11,7 +11,7 @@ User::User() { }
 
 User::~User() { }
 
-bool User::addTemperature(Temperature * temp)
+bool User::addTemperature()
 {
 	double tempCelsius = 0.0;
 	double tempFahrenheit = 0.0;
@@ -51,23 +51,105 @@ bool User::addTemperature(Temperature * temp)
 	} while (!bCorrectType);
 	std::cout << std::endl;
 	Temperature * temp = new Temperature{ tempCelsius, tempFahrenheit };
-
+	
 	allTemps.push_back(temp);
 	allTempsIt = (std::end(allTemps) - 1);
 	return (std::find(allTemps.begin(), allTemps.end(), temp) != allTemps.end());
 }
 
+bool User::changeTemperature()
+{
+	if (!changeIteratorPointedObject()) { return false; }
+	this->printAllTemperatures();
+	// std::cout << "dereferenced with user class: " << (*user->getVectorTempIt())->getCelsius() << std::endl; BUG TEST LINE
+	double tempCelsius = 0.0;
+	double tempFahrenheit = 0.0;
+	bool bCorrectType = false;
+	std::string trash = "";
+	do
+	{
+		std::cout << "Celsius: ";
+		if (!(std::cin >> tempCelsius))
+		{
+			std::cin.clear();
+			std::getline(std::cin, trash);
+			bCorrectType = false;
+		}
+		else
+		{
+			std::cin.clear();
+			std::getline(std::cin, trash);
+			bCorrectType = true;
+		}
+	} while (!bCorrectType);
+	do
+	{
+		std::cout << "Fahrenheit: ";
+		if (!(std::cin >> tempFahrenheit))
+		{
+			std::cin.clear();
+			std::getline(std::cin, trash);
+			bCorrectType = false;
+		}
+		else
+		{
+			std::cin.clear();
+			std::getline(std::cin, trash);
+			bCorrectType = true;
+		}
+	} while (!bCorrectType);
+	std::cout << std::endl;
+
+	(*this->getVectorTempIt())->setCelsius(tempCelsius);
+	(*this->getVectorTempIt())->setFahrenheit(tempFahrenheit);
+
+	return true;
+}
+
+bool User::changeIteratorPointedObject()
+{
+	const int end = this->allTemps.size();
+	if (end > 0)
+	{
+		const int start = 1;
+		int index = askForIndex(start, end);
+		this->setVectorTempIt(index);
+		return true;
+	}
+	std::printf("No temperatures where found on disk. Please create a new one!\n");
+	return false;
+}
+
 bool User::removeTemperature(Temperature * temp) // TODO Complete removeTemperature
 {
-	if ((std::find(allTemps.begin(), allTemps.end(), temp) == allTemps.end()))
+	(std::find(begin(allTemps), end(allTemps), temp) != end(allTemps) ? allTemps.erase(allTempsIt) : allTempsIt);
+	if (std::find(allTemps.begin(), allTemps.end(), temp) == allTemps.end())
 	{
-		return false;
+		return true;
 	}
 	else
 	{
-		allTemps.erase(allTempsIt);
-		return true;
+		return false;
 	}
+}
+
+int User::askForIndex(const int start, const int end)
+{
+	int index = 0;
+	std::cout << "Please select from index: " << start << " - " << end << std::endl << "Choice: ";
+	std::cin >> index;
+	if ((std::cin.fail()) || (index > end) || (index < start))
+	{
+		printf_s("Index out of bounds! Try again...");
+		std::cin.clear(); // Clears the bitflags of the input stream
+		std::cin.ignore(); // Removes the rest of the input stream
+		askForIndex(start, end);
+	}
+	else
+	{
+		return index;
+	}
+	return 0;
 }
 
 std::string User::getTimeAsString(time_t & mytime)

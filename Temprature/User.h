@@ -25,8 +25,11 @@ public:
 	void setVectorTempIt(int x);
 
 	// Functions
-	bool addTemperature(Temperature * temp);
+	bool addTemperature();
+	bool changeTemperature();
+	bool changeIteratorPointedObject();
 	bool removeTemperature(Temperature * temp);
+	int askForIndex(const int start, const int end);
 	std::string getTimeAsString(time_t &mytime);
 
 	void readTemperatureFromFile(std::ifstream & fin);

@@ -7,21 +7,16 @@
 #include <chrono> // for tid
 
 User * createNewUser();
-void introduction();
-bool createNewTemperature();
-bool changeTemperature();
-bool changeIteratorPointedObject();
+inline void introduction();
 void showInformation();
 void optionsInformation();
 int selectOptions();
-int askForIndex(const int start, const int end);
 
 User * user = new User();
-int answer = 3;
-int index = 0;
+int answer = 6;
+
 std::ofstream fout("CPP_StreamAsText.txt", std::ios_base::out | std::ios_base::app); // STREAMS TO text file CPPtrainingstream.txt! Truncates the content every time the program restarts
 std::ifstream fin("CPP_StreamAsText.txt", std::ifstream::in);						 // STREAMS FROM text file CPPtrainingstream.txt! Truncates the content every time the program restarts
-
 std::fstream finout("CPP_StreamAsBinary.txt", std::ios_base::in | std::ios_base::out | std::ios_base::app | std::ios_base::binary);
 
 int main()
@@ -40,20 +35,20 @@ int main()
 		switch (answer = selectOptions())
 		{
 		case 1: // Celsius to Fahrenheit
-			if (!changeIteratorPointedObject()) { break; }
+			if (!user->changeIteratorPointedObject()) { break; }
 			std::cout << (*user->getVectorTempIt())->getCelsius() << " Celsius is " << (*user->getVectorTempIt())->toFahrenheit((*user->getVectorTempIt())->getCelsius()) << " Fahrenheit" << std::endl;
 			break;
 		case 2: // Fahrenheit to Celsius
-			if (!changeIteratorPointedObject()) { break; }
+			if (!user->changeIteratorPointedObject()) { break; }
 			std::cout << (*user->getVectorTempIt())->getFahrenheit() << " Fahrenheit is " << (*user->getVectorTempIt())->toCelsius((*user->getVectorTempIt())->getFahrenheit()) << " Celsius" << std::endl;
 			break;
 		case 3: // Delete temperature value
-			if (!changeIteratorPointedObject()) { break; }
+			if (!user->changeIteratorPointedObject()) { break; }
 			user->removeTemperature((*user->getVectorTempIt()));
 			printf_s("Temperature Deleted!\n");
 			break;
 		case 4: // Create new Temperature Value
-			if (!createNewTemperature()) { break; }
+			if (!user->addTemperature()) { break; }
 			std::cout.setf(std::ios_base::left);
 
 			currTime = (*user->getVectorTempIt())->getCreationTime(); // reduce code on next line;
@@ -67,7 +62,7 @@ int main()
 			finout.write((char*)&binaryDouble, sizeof binaryDouble) << std::endl << std::flush; // Flush stream to make sure the buffer is cleared!
 			break;
 		case 5:  // Change Temperature Values
-			if (!changeTemperature()) { break; }
+			if (!user->changeTemperature()) { break; }
 			std::cout.setf(std::ios_base::left);
 
 			currTime = (*user->getVectorTempIt())->getCreationTime(); // reduce code on next line;
@@ -97,134 +92,8 @@ int main()
 
 void introduction()
 {
-	std::printf("Welcome to temperature measurement v3.0\nPlease choose one of the options below (anything else will exit the program!)\n");
+	std::printf("Welcome to temperature measurement v4.0\nPlease choose one of the options below (anything else will exit the program!)\n");
 	return;
-}
-
-bool createNewTemperature()
-{
-	double tempCelsius = 0.0;
-	double tempFahrenheit = 0.0;
-	bool bCorrectType = false;
-	std::string trash = "";
-	do
-	{
-		std::cout << "Celsius: ";
-		if (!(std::cin >> tempCelsius))
-		{
-			std::cin.clear();
-			std::getline(std::cin, trash);
-			bCorrectType = false;
-		}
-		else
-		{
-			std::cin.clear();
-			std::getline(std::cin, trash);
-			bCorrectType = true;
-		}
-	} while (!bCorrectType);
-	do
-	{
-		std::cout << "Fahrenheit: ";
-		if (!(std::cin >> tempFahrenheit))
-		{
-			std::cin.clear();
-			std::getline(std::cin, trash);
-			bCorrectType = false;
-		}
-		else
-		{
-			std::cin.clear();
-			std::getline(std::cin, trash);
-			bCorrectType = true;
-		}
-	} while (!bCorrectType);
-	std::cout << std::endl;
-	Temperature * temp = new Temperature{tempCelsius, tempFahrenheit};
-	return (user->addTemperature(temp) ? true : false);
-}
-
-bool changeTemperature()
-{
-	if (!changeIteratorPointedObject()) { return false; }
-	user->printAllTemperatures();
-	// std::cout << "dereferenced with user class: " << (*user->getVectorTempIt())->getCelsius() << std::endl; BUG TEST LINE
-
-	double tempCelsius = 0.0;
-	double tempFahrenheit = 0.0;
-	bool bCorrectType = false;
-	std::string trash = "";
-	do
-	{
-		std::cout << "Celsius: ";
-		if (!(std::cin >> tempCelsius))
-		{
-			std::cin.clear();
-			std::getline(std::cin, trash);
-			bCorrectType = false;
-		}
-		else
-		{
-			std::cin.clear();
-			std::getline(std::cin, trash);
-			bCorrectType = true;
-		}
-	} while (!bCorrectType);
-	do
-	{
-		std::cout << "Fahrenheit: ";
-		if (!(std::cin >> tempFahrenheit))
-		{
-			std::cin.clear();
-			std::getline(std::cin, trash);
-			bCorrectType = false;
-		}
-		else
-		{
-			std::cin.clear();
-			std::getline(std::cin, trash);
-			bCorrectType = true;
-		}
-	} while (!bCorrectType);
-	std::cout << std::endl;
-
-	(*user->getVectorTempIt())->setCelsius(tempCelsius);
-	(*user->getVectorTempIt())->setFahrenheit(tempFahrenheit);
-
-	return true;
-}
-
-bool changeIteratorPointedObject()
-{
-	const int end = user->getVectorTemp().size();
-	if (end > 0)
-	{
-		const int start = 1;
-		int index = askForIndex(start, end);
-		user->setVectorTempIt(index);
-		return true;
-	}
-	std::printf("No temperatures where found on disk. Please create a new one!\n");
-	return false;
-}
-
-int askForIndex(const int start,const int end)
-{
-	int index = 0;
-	std::cout << "Please select from index: " << start << " - " << end << std::endl << "Choice: ";
-	std::cin >> index;
-	if ((std::cin.fail()) || (index > end) || (index < start))
-	{
-		printf_s("Index out of bounds! Try again...");
-		std::cin.clear(); // Clears the bitflags of the input stream
-		std::cin.ignore(); // Removes the rest of the input stream
-		askForIndex(start, end);
-	}
-	else
-	{
-		return index;
-	}
-	return 0;
 }
 
 User * createNewUser()

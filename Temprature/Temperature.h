@@ -6,8 +6,8 @@ class Temperature
 {
 public:
 	// Constructor
-	explicit Temperature();
-	explicit Temperature(double cf = 0.0);
+	Temperature();
+	Temperature(double cf = 0.0);
 	explicit Temperature(double c = 0.0, double f = 0.0);
 	
 	// Copy-Constructor

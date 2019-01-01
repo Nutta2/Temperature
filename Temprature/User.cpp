@@ -231,11 +231,11 @@ void User::printAllTemperatures()
 		allTemps.begin(), 
 		allTemps.end(), 
 		[&](Temperature * t)  // USING LAMBA TO LOOP THROUGH! TODO ONLY USE VARIABLES NEEDED NOT ALL IN USER.CPP -> [&] use all
-	{ 
-		count++; 
+		{ 
+		count++;
 		auto currTime = t->getCreationTime();
 		printf_s("%*d: Celsius: %.*f Fahrenheit: %.*f Time: %s\n", WIDTH, (count), PRECISION, t->getCelsius(), PRECISION, t->getFahrenheit(), this->getTimeAsString(currTime).c_str());
-	}
+		}
 	); {}
 	
 		  

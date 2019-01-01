@@ -72,10 +72,10 @@ int main()
 			fout << "Celsius: " << (*user->getVectorTempIt())->getCelsius() << "\tFahrenheit : " << (*user->getVectorTempIt())->getFahrenheit() << "\tTime: " << currTime << std::endl;
 			break;
 		case 6: // Print Temperatures
-			// user->readTemperatureFromFile(fin);
+			user->readTemperatureFromFile(fin);
 			user->printAllTemperatures();
 			user->printAllTemperaturesFromFileAsText(fin);
-			user->printAllTemperaturesFromFileAsBinary(finout);
+			//user->printAllTemperaturesFromFileAsBinary(finout);
 			break;
 		case 7:
 			delete user;
@@ -93,7 +93,6 @@ int main()
 void introduction()
 {
 	std::printf("Welcome to temperature measurement v4.0\nPlease choose one of the options below (anything else will exit the program!)\n");
-	return;
 }
 
 User * createNewUser()

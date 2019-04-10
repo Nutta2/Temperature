@@ -8,7 +8,7 @@ public:
 	// Constructor
 	Temperature();
 	Temperature(double cf = 0.0);
-	explicit Temperature(double c = 0.0, double f = 0.0);
+	Temperature(double c = 0.0, double f = 0.0);
 	
 	// Copy-Constructor
 	// NOT A DEEP COPY CONSTRUCTOR !! Only shallow copy
